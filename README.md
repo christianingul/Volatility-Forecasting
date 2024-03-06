@@ -1,59 +1,36 @@
-# Volatility-Forecasting
+Data Science Project Proposal: Volatility Trading Strategy
+Project participants: Christian Ingul, Anthony Navarro
 
-Data Science Project Proposal: Financial Trading Strategy Development
+Background Summary:
+This project aims to leverage machine learning techniques to forecast the realized variance (RV) as a proxy for the implied volatility of options, particularly focusing on the SPY (S&P 500 ETF Trust). Accurately predicting RV will identify mispriced assets in the market, enabling the execution of profitable trading strategies.
+Problem Statement: The challenge of identifying anomalies or mispricings in the listed options market has intensified. Traditional methods depend heavily on mathematical models. This project proposes a paradigm shift towards a data-driven approach, employing advanced ML models for more accurate volatility forecasting.
+Technical Objective:
 
-Data Scientist: Christian Ingul, Anthony Navarro
-
-Objective:
-The project aims to develop, test, and deploy an automated trading strategy utilizing advanced data science and machine learning techniques. The process will leverage financial data extraction, preprocessing, exploratory data analysis (EDA), feature engineering, model development, backtesting, and deployment on a cloud platform for real-time trading.
-
+To develop, test, and deploy an automated trading strategy that utilizes advanced data science and machine learning techniques for forecasting volatility. This involves data extraction, preprocessing, exploratory data analysis (EDA), feature engineering, model development, backtesting, and deployment on a cloud platform for real-time trading.
+Methodology:
+Data Preparation and Exploration: Retrieve financial data, perform comprehensive EDA to identify patterns and correlations, and create a data dictionary for clarity.
+Data Preprocessing and Feature Engineering: Apply data cleaning techniques, utilize dimensionality reduction methods like LASSO and PCA, and explore autoencoder structures for feature selection.
+Model Development and Evaluation: Implement a sophisticated encoder-decoder architecture and other deep learning models, supplemented by shallow models for benchmarking. Conduct rigorous backtesting to evaluate model performance.
+Deployment and Real-time Trading: Deploy the model and trading strategy on AWS using Amazon Sagemaker, with the potential for project sponsorship based on outcomes.
 Timeline:
-- Duration: Spring Break plus two additional weeks.
-- Phases: The project is divided into four main phases for structured completion.
-
-Phase 1: Data Preparation and Exploration
-
-- Data Extraction: Retrieve financial data from Quantitative Trading Google Drive, ensuring data is in a format conducive to analysis. Currently, the data is stored in time stamped feather files with features related to SPY (one day at a time). The extraction will require nuanced code for looping through the data folder to build a chronological dataset. Additionally, we will have to merge the target feature chronologically with our features. The target variable is in a separate file, which I will post on my GitHub.
-
-- Exploratory Data Analysis (EDA): Conduct thorough EDA to understand underlying patterns, correlations, and distribution in the data. This will include statistical summaries, visualization, and initial hypothesis forming. I see this part of the project being particularly challenging given it is high dimensional and noisy. I suggest we bucket the various features into respective financial features such as spreads, features, equities, bonds, etc. 
-
-- Data Dictionary: If necessary we can work to build out a comprehensive data dictionary explaining features and target variables.
-
-Phase 2: Data Preprocessing and Feature Engineering
-
-- Data Cleaning and Preprocessing: Apply techniques to limit extreme values, imputation for handling missing values, and general data cleansing to enhance data quality.
-
-- Feature Engineering: Employ dimensionality reduction techniques like LASSO (Least Absolute Shrinkage and Selection Operator) and PCA ( Principal Component Analysis) to identify and select relevant features for model training. We can also explore using an autoencoder structure to generate PC’s. A new research paper from Polish researchers suggests the application of Lasso PCA, which is using LASSO on PC’s after initial PCA.
-
-Phase 3: Model Development and Evaluation 
-
-- Model Architecture: Design and implement a sophisticated encoder-decoder architecture alongside other deep learning methodologies tailored for financial time series prediction. Additionally, we can leverage shallow models such as Random Forest, XGBoost, etc. to benchmark our DL models.
-
-- Model Training and Evaluation: Train models using the processed dataset, followed by rigorous backtesting to evaluate performance against historical data. Our comparison model will be the benchmark model including a selection of features (I will explain).
-
-- Trading Strategy Development: Utilize insights and predictions from the model to formulate a comprehensive trading strategy.
-
-Phase 4: Deployment and Real-time Trading
-
-- Cloud Deployment: Migrate the model and trading strategy to AWS (Amazon Web Services) to leverage cloud computing for scalability, reliability, and real-time trading capabilities. Amazon Sagemaker would be the correct cloud application for this type of deployment.
-
-- Experience Gaining: Utilize the deployment phase as an opportunity to gain practical experience with cloud platforms, automated trading systems, and real-time data processing. We can also loop in Austin Pollok and the stakeholder (Kevin), which may be willing to provide capital, or sponsor the project based on our results.
-
-
+Week 1-2: Data extraction and initial EDA.
+Week 3: Advanced preprocessing and feature engineering.
+Week 4-5: Model development and backtesting.
+Week 6: Cloud deployment and initial trading tests.
 Expected Outcomes:
+A fully functional automated trading system capable of predicting SPY option volatility with high accuracy, alongside practical experience in deploying and managing ML models for real-time applications.
+Explanation of Target Variable: 22-day Forward Realized Variance (RV) with a 23-day Lead
 
-- A fully functional automated trading system that can predict SPY option volatility movements with high accuracy.
-- Experience in deploying and managing machine learning models in a cloud environment for real-time applications.
+Realized Variance (RV): This is a statistical measure of the variability of financial returns. Specifically, it is the sum of the squares of daily returns for a given period. Squaring daily returns emphasizes larger movements and provides a measure of volatility.
 
-Milestones:
+22-day Period: The timeframe of interest is 22 trading days, which approximates one calendar month of trading days. The RV is calculated over these consecutive 22 trading days to capture a monthly volatility profile.
 
-- Week 1-2: Data extraction, EDA, and initial preprocessing.
-- Week 3: Advanced data preprocessing and feature engineering.
-- Week 4-5: Model development, training, and backtesting.
-- Week 6: Deployment on AWS and initial real-time trading tests.
+23-day Lead: Instead of calculating this RV for the current or immediate past 22 days, we calculate it for a period starting 23 days ahead of the current date (the index date). This means that for any given day when the data is recorded, the RV we're targeting to predict is not for the past or present month but for the month that begins 23 days in the future.
 
-Quantitative Trading Class Drive
-https://drive.google.com/drive/folders/1UsynFmMuGAarQC5r-A2wFXgVn2OoLXCd?usp=sharing
+Purpose of Leading: The 23-day lead time is essentially a forecasting step. It ensures that the RV we are trying to predict is not immediately influenced by the current day's price action, which provides a clearer predictive signal for future volatility that could impact trading decisions.
 
-How to find raw data in the drive: “Input_Data” -> “Features_Per_Ticker_Per_Day” -> “SPY_84398”.
+Application in Trading: In practical terms, a trader or a portfolio manager would use today's information to predict the level of volatility (using the RV) for a month that starts 23 days from today. This forward-looking forecast helps in planning trades and risk management strategies for that future period, rather than reacting to already known or current market conditions.
 
+
+How RV Prediction Informs IV Analysis:
+Predicting RV accurately provides an estimate of future market volatility. By comparing this with the current IV, we can identify potential mispricings in the options market. This insight is pivotal for developing trading strategies that capitalize on the spread between the predicted RV and the IV reflected in option prices, thereby securing potential profits.
