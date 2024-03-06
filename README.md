@@ -1,5 +1,5 @@
-Data Science Project Proposal: Volatility Trading Strategy
-Project participants: Christian Ingul, Anthony Navarro
+# Data Science Project Proposal: Volatility Trading Strategy
+## Project participants: Christian Ingul, Anthony Navarro
 
 Background Summary:
 This project aims to leverage machine learning techniques to forecast the realized variance (RV) as a proxy for the implied volatility of options, particularly focusing on the SPY (S&P 500 ETF Trust). Accurately predicting RV will identify mispriced assets in the market, enabling the execution of profitable trading strategies.
